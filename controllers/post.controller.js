@@ -12,14 +12,14 @@ const createPost = async (req, res) => {
       location: user.location,
       description: description,
       userPicturePath: user.picturePath,
-      picturePath,
+      picturePath: picturePath,
       likes: {},
       comments: [],
     });
-    await newPost.save();
-    console.log(newPost);
-    const post = await Post.find();
-    res.status(201).json(post);
+    const POST = await newPost.save();
+    // console.log(newPost);
+    // const post = await Post.find();
+    res.status(201).json(POST);
   } catch (err) {
     res.status(409).json({ message: err.message });
   }

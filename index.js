@@ -6,13 +6,18 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import multer from "multer";
+import path from "path";
+import { fileURLToPath } from "url";
 import connectDB from "./config/db.js";
 import authRoute from "./routes/auth.route.js";
 import userRoute from "./routes/user.route.js";
 import postRoute from "./routes/post.route.js";
+import { createPost } from "./controllers/post.controller.js";
 
 const app = express();
 dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
@@ -34,7 +39,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //place file routes here
+app.post("/api/v1/post/create", upload.single("picture"), createPost);
 
+//routes
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/post", postRoute);
@@ -45,4 +52,7 @@ app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
 });
 
+app.get("/", (req, res) => {
+  res.send("hiii");
+});
 connectDB();

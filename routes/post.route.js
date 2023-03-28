@@ -3,13 +3,12 @@ import {
   getFeedPosts,
   getUserPosts,
   likePost,
-  createPost,
   commentOnPost,
 } from "../controllers/post.controller.js";
 
 const router = express.Router();
 
-router.post("/create", createPost);
+// router.post("/create", createPost);
 router.get("/fetch", getFeedPosts);
 router.get("/fetch/:userId", getUserPosts);
 router.patch("/like/:id", likePost);
