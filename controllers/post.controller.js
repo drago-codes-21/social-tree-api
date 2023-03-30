@@ -13,15 +13,23 @@ const createPost = async (req, res) => {
       description: description,
       userPicturePath: user.picturePath,
       picturePath: picturePath,
-      likes: {},
+      likes: new Map(),
       comments: [],
     });
-    const POST = await newPost.save();
-    // console.log(newPost);
-    // const post = await Post.find();
-    res.status(201).json(POST);
+    newPost.save();
+    const post = await Post.find();
+    res.status(201).json(post);
   } catch (err) {
     res.status(409).json({ message: err.message });
+  }
+};
+
+const getSinglePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(409).json({ message: error.message });
   }
 };
 
@@ -29,6 +37,7 @@ const createPost = async (req, res) => {
 const getFeedPosts = async (req, res) => {
   try {
     const post = await Post.find();
+    post.sort((a, b) => b.createdAt - a.createdAt);
     res.status(200).json(post);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -92,4 +101,11 @@ const commentOnPost = async (req, res) => {
     res.status(500).json(error);
   }
 };
-export { createPost, likePost, getFeedPosts, getUserPosts, commentOnPost };
+export {
+  createPost,
+  likePost,
+  getFeedPosts,
+  getSinglePost,
+  getUserPosts,
+  commentOnPost,
+};
