@@ -101,6 +101,32 @@ const commentOnPost = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+const toggleBookmarkPost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { userId } = req.body;
+    const user = await User.findById(userId);
+    const post = await Post.findById(postId);
+    const bookmarkMap = user.bookmarks;
+
+    if (bookmarkMap.get(postId)) {
+      bookmarkMap.delete(postId);
+    } else {
+      bookmarkMap.set(postId, post);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { bookmarks: bookmarkMap },
+      { new: true }
+    );
+    res.status(201).json(updatedUser);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 export {
   createPost,
   likePost,
@@ -108,4 +134,5 @@ export {
   getSinglePost,
   getUserPosts,
   commentOnPost,
+  toggleBookmarkPost,
 };

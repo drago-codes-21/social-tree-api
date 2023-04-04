@@ -39,6 +39,13 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    bookmarks: {
+      type: Map,
+    },
+    likedPosts: {
+      type: Array,
+      default: [{}],
+    },
   },
   { timestamps: true }
 );

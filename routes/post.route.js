@@ -5,6 +5,7 @@ import {
   likePost,
   commentOnPost,
   getSinglePost,
+  toggleBookmarkPost,
 } from "../controllers/post.controller.js";
 
 const router = express.Router();
@@ -15,5 +16,6 @@ router.get("/fetch/singlePost/:id", getSinglePost);
 router.get("/fetch/:userId", getUserPosts);
 router.patch("/like/:id", likePost);
 router.patch("/comment/:id", commentOnPost);
+router.put("/toggle-bookmark/:id", toggleBookmarkPost);
 
 export default router;
