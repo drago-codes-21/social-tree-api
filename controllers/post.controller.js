@@ -107,18 +107,16 @@ const toggleBookmarkPost = async (req, res) => {
     const { postId } = req.params;
     const { userId } = req.body;
     const user = await User.findById(userId);
-    const post = await Post.findById(postId);
-    const bookmarkMap = user.bookmarks;
-
-    if (bookmarkMap.get(postId)) {
-      bookmarkMap.delete(postId);
-    } else {
-      bookmarkMap.set(postId, post);
-    }
-
+    const bookmarkArr = user.bookmarks;
+    const arr = [];
+    // for(let i = 0; i < bookmarkArr.length; i++) {
+    //   if(bookmarkArr[i] === postId) {
+    //     bookmarkArr.
+    //   }
+    // }
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { bookmarks: bookmarkMap },
+      { bookmarks: bookmarkArr },
       { new: true }
     );
     res.status(201).json(updatedUser);
